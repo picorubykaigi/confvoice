@@ -1,0 +1,11 @@
+<%= t("feedback_mailer.speaker_notification.title") %>
+
+<%= t("feedback_mailer.speaker_notification.body_text", conference: @conference.name, session: @session.title) %>
+
+<%= t("feedback_mailer.speaker_notification.name") %>: <%= @feedback.respondent_name %>
+
+<% if @feedback.rating.present? %>
+<%= t("feedback_mailer.speaker_notification.rating") %>: <%= @feedback.rating %> / 5
+<% end %>
+
+<%= @feedback.body %>

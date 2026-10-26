@@ -1,0 +1,11 @@
+<h1><%= t("feedback_mailer.speaker_notification.title") %></h1>
+
+<p><%= t("feedback_mailer.speaker_notification.body_html", conference: @conference.name, session: @session.title) %></p>
+
+<p><%= t("feedback_mailer.speaker_notification.name") %>: <%= @feedback.respondent_name %></p>
+
+<% if @feedback.rating.present? %>
+  <p><%= t("feedback_mailer.speaker_notification.rating") %>: <%= @feedback.rating %> / 5</p>
+<% end %>
+
+<p><%= simple_format(@feedback.body) %></p>

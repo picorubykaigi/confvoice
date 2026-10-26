@@ -1,0 +1,53 @@
+<% content_for :title, "#{@session.title} - #{@conference.name}" %>
+<% content_for :og_title, "#{@session.title} - #{@conference.name}" %>
+<% content_for :og_description, @session.description.to_s.squish.presence || conference_og_description(@conference) %>
+
+<div class="space-y-5">
+  <%= link_to public_conference_path(@conference), class: "button-ghost -ml-3 w-fit" do %>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+    <%= t("public_feedbacks.back_to_sessions") %>
+  <% end %>
+
+  <section>
+    <div class="feedback-session-header">
+      <p class="muted text-sm"><%= @conference.name %></p>
+      <h1 class="page-title mt-2"><%= @session.title %></h1>
+      <p class="muted mt-2 text-sm"><%= @session.speaker_name %></p>
+      <p class="muted mt-3 text-sm tabular-nums"><%= session_time_and_room(@session) %></p>
+    </div>
+
+    <div class="pt-6">
+      <div class="mb-6">
+        <h2 class="section-title"><%= t("public_feedbacks.form_title") %></h2>
+      </div>
+
+      <%= form_with model: @feedback,
+            url: public_feedback_path(@conference, @session),
+            class: "space-y-6",
+            data: {
+              controller: "feedback-draft",
+              feedback_draft_key_value: "feedback-draft:#{@conference.slug}:#{@session.slug}",
+              action: "input->feedback-draft#save turbo:before-cache@document->feedback-draft#save"
+            } do |form| %>
+        <%= render "shared/errors", resource: @feedback %>
+
+        <div>
+          <%= form.label :respondent_name, t("public_feedbacks.respondent_name"), class: "form-label" %>
+          <%= form.text_field :respondent_name, required: true, maxlength: 80, autocomplete: "name", placeholder: t("public_feedbacks.name_placeholder"), data: { feedback_draft_target: "field" }, class: "form-input" %>
+        </div>
+
+        <div data-controller="char-count">
+          <div class="flex items-center justify-between gap-4">
+            <%= form.label :body, t("public_feedbacks.body"), class: "form-label" %>
+            <p class="muted text-xs tabular-nums"><span data-char-count-target="count">0</span>/2000</p>
+          </div>
+          <%= form.text_area :body, rows: 7, required: true, maxlength: 2000, placeholder: t("public_feedbacks.placeholder"), data: { char_count_target: "input", feedback_draft_target: "field", action: "input->char-count#update" }, class: "form-input resize-y leading-7" %>
+        </div>
+
+        <p class="form-note"><%= t("public_feedbacks.privacy_note") %></p>
+
+        <%= form.submit t("public_feedbacks.submit"), class: "button-primary cursor-pointer" %>
+      <% end %>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,69 @@
+<% action_url = session_record.persisted? ? conference_manage_session_path(conference, session_record) : conference_manage_sessions_path(conference) %>
+<% session_date_options = (conference.starts_on..conference.ends_on).map { |date| [l(date), date.iso8601] } %>
+<% selected_scheduled_on = (session_record.starts_at&.to_date || conference.starts_on).iso8601 %>
+
+<%= form_with model: session_record, url: action_url, class: "space-y-5" do |form| %>
+  <%= render "shared/errors", resource: session_record %>
+
+  <div>
+    <%= form.label :title, t("ui.sessions.title"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+    <%= form.text_field :title, required: true, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+  </div>
+
+  <div>
+    <%= form.label :description, t("ui.sessions.description"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+    <%= form.text_area :description, rows: 4, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+  </div>
+
+  <div class="grid gap-5 md:grid-cols-2">
+    <div>
+      <%= form.label :speaker_name, t("ui.sessions.speaker_name"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= form.text_field :speaker_name, required: true, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+    </div>
+    <div>
+      <%= form.label :speaker_user_id, t("ui.sessions.speaker_user"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= form.collection_select :speaker_user_id, conference.members.order(:name), :id, :name, { include_blank: t("ui.sessions.no_speaker_account") }, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :room, t("ui.sessions.room"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+    <%= form.text_field :room, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+  </div>
+
+  <div class="grid gap-5 md:grid-cols-3">
+    <div>
+      <%= label_tag "session_scheduled_on", t("ui.sessions.date"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= select_tag "session[scheduled_on]", options_for_select(session_date_options, selected_scheduled_on), id: "session_scheduled_on", required: true, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+    </div>
+    <div>
+      <%= label_tag "session_starts_time", t("ui.sessions.starts_at"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= time_field_tag "session[starts_time]", session_record.starts_at&.strftime("%H:%M"), id: "session_starts_time", required: true, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+    </div>
+    <div>
+      <%= label_tag "session_ends_time", t("ui.sessions.ends_at"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= time_field_tag "session[ends_time]", session_record.ends_at&.strftime("%H:%M"), id: "session_ends_time", required: true, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+    </div>
+  </div>
+
+  <label class="flex items-center gap-3 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+    <%= form.check_box :feedback_open, class: "size-4 rounded border-zinc-300 dark:border-zinc-700 text-emerald-600 dark:text-emerald-300 focus:ring-emerald-600" %>
+    <%= t("ui.sessions.accept_feedback") %>
+  </label>
+
+  <div>
+    <%= form.label :slide_deck, t("ui.sessions.slide_deck"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+    <%= form.file_field :slide_deck, accept: "application/pdf", class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 file:mr-4 file:rounded-md file:border-0 file:bg-zinc-100 dark:file:bg-zinc-100 dark:bg-zinc-800 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-zinc-950 dark:file:text-white" %>
+    <% if session_record.slide_deck.attached? %>
+      <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        <%= t("ui.sessions.attached") %>:
+        <%= link_to session_record.slide_deck.filename.to_s, rails_blob_path(session_record.slide_deck, disposition: "inline"), class: "font-semibold text-emerald-600 dark:text-emerald-300 hover:text-emerald-700 dark:hover:text-emerald-200" %>
+      </p>
+    <% end %>
+  </div>
+
+  <div class="flex flex-wrap gap-3">
+    <%= form.submit t("ui.common.save"), class: "rounded-md bg-zinc-100 px-4 py-3 text-sm font-semibold text-zinc-950 hover:bg-white" %>
+    <%= link_to t("ui.common.back"), conference_manage_sessions_path(conference), class: "rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-3 text-sm font-semibold text-zinc-900 dark:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800" %>
+  </div>
+<% end %>

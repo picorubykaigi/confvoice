@@ -1,0 +1,51 @@
+<% content_for :public_container_class, "max-w-5xl" %>
+<% content_for :title, @conference.name %>
+<% content_for :og_title, @conference.name %>
+<% content_for :og_description, conference_og_description(@conference) %>
+
+<div class="space-y-10">
+  <section class="conference-heading">
+    <% if @conference.ogp_image.attached? %>
+      <%= image_tag @conference.ogp_image, alt: conference_og_image_alt(@conference), loading: "eager", class: "mb-6 max-h-64 w-full rounded-md object-cover" %>
+    <% end %>
+    <h1 class="page-title"><%= @conference.name %></h1>
+    <p class="muted mt-3 text-sm"><%= conference_location_and_date(@conference) %></p>
+    <% if @conference.description.present? %>
+      <p class="muted mt-4 max-w-2xl whitespace-pre-line text-sm"><%= @conference.description %></p>
+    <% end %>
+  </section>
+
+  <section>
+    <h2 class="section-title mb-6"><%= t("public_conferences.sessions_title") %></h2>
+    <% if @sessions.any? %>
+      <div class="space-y-8">
+        <% session_date_groups(@sessions).each do |date, sessions| %>
+          <section class="schedule-day">
+            <h3 class="muted text-sm font-medium tabular-nums"><%= l(date) %></h3>
+            <div class="schedule-list">
+              <% sessions.each do |session| %>
+                <article class="schedule-row">
+                  <div class="min-w-0">
+                    <p class="muted text-sm tabular-nums"><%= session_time_and_room(session) %></p>
+                    <h4 class="mt-2 text-base font-semibold"><%= session.title %></h4>
+                    <p class="muted mt-1 text-sm"><%= session.speaker_name %></p>
+                    <% if session.description.present? %>
+                      <p class="muted mt-3 max-w-2xl text-sm"><%= session.description %></p>
+                    <% end %>
+                  </div>
+                  <% if session.feedback_open? %>
+                    <%= link_to t("public_conferences.send_feedback"), public_feedback_path(@conference, session), class: "button-secondary shrink-0" %>
+                  <% else %>
+                    <span class="muted py-3 text-sm"><%= t("public_conferences.closed") %></span>
+                  <% end %>
+                </article>
+              <% end %>
+            </div>
+          </section>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state"><%= t("public_conferences.empty") %></div>
+    <% end %>
+  </section>
+</div>

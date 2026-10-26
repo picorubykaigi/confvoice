@@ -1,0 +1,15 @@
+<% content_for :title, "#{@conference.name} - #{t("public_feedbacks.thanks_title")}" %>
+<% content_for :og_title, @conference.name %>
+<% content_for :og_description, conference_og_description(@conference) %>
+
+<section class="py-6">
+  <p class="muted text-sm"><%= @conference.name %></p>
+  <h1 class="page-title mt-2"><%= t("public_feedbacks.thanks_title") %></h1>
+  <p class="page-lead mt-3"><%= t("public_feedbacks.thanks_body") %></p>
+  <div class="mt-7">
+    <%= link_to public_conference_path(@conference), class: "button-secondary" do %>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+      <%= t("public_feedbacks.back_to_sessions") %>
+    <% end %>
+  </div>
+</section>

@@ -1,0 +1,82 @@
+<%= turbo_stream_from @conference, "feedbacks" %>
+<%= turbo_stream_from @conference, "stats" %>
+
+<div class="space-y-7">
+  <div class="page-heading">
+    <div>
+      <p class="muted mb-2 text-sm"><%= link_to @conference.name, conference_path(@conference), class: "text-link" %></p>
+      <h1 class="page-title"><%= t("ui.dashboard.title") %></h1>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <%= link_to t("ui.feedbacks.export_csv"), conference_export_path(@conference, format: :csv), class: "button-secondary" %>
+      <%= link_to t("ui.sessions.qr_codes"), conference_qrcodes_path(@conference), class: "button-secondary" %>
+    </div>
+  </div>
+
+  <section class="stats-summary">
+    <div class="stat-card">
+      <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400"><%= t("ui.dashboard.feedback_count") %></p>
+      <p class="stat-card__value"><%= @total_count %></p>
+    </div>
+    <div class="stat-card">
+      <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400"><%= t("ui.dashboard.average_rating") %></p>
+      <p class="stat-card__value"><%= @overall_average || "—" %></p>
+    </div>
+    <div class="stat-card">
+      <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400"><%= t("ui.dashboard.session_count") %></p>
+      <p class="stat-card__value"><%= @sessions.size %></p>
+    </div>
+  </section>
+
+  <section class="grid gap-4 lg:grid-cols-2">
+    <div class="surface chart-panel">
+      <div>
+        <h2 class="section-title"><%= t("ui.dashboard.rating_by_session") %></h2>
+      </div>
+      <div class="mt-5">
+        <%= bar_chart @sessions.map { |session| [session.title.truncate(30), session.average_rating || 0] }, min: 0, max: 5, colors: ["#71717a"], empty: t("ui.dashboard.empty_chart"), library: { plugins: { legend: { display: false } } } %>
+      </div>
+    </div>
+
+    <div class="surface chart-panel">
+      <div>
+        <h2 class="section-title"><%= t("ui.dashboard.feedback_trend") %></h2>
+      </div>
+      <div class="mt-5">
+        <%= line_chart @feedbacks_by_day, colors: ["#71717a"], empty: t("ui.dashboard.empty_chart"), curve: true %>
+      </div>
+    </div>
+  </section>
+
+  <% if @keywords.any? %>
+    <% max_count = @keywords.first.last %>
+    <section class="surface p-5 sm:p-6">
+      <h2 class="section-title"><%= t("ui.dashboard.keywords") %></h2>
+      <div class="mt-5 flex flex-wrap items-center gap-2.5">
+        <% @keywords.each do |word, count| %>
+          <span class="<%= keyword_size_class(count, max_count) %> badge px-3 py-1.5"><%= word %></span>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+
+  <section class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+    <div>
+      <div class="mb-3">
+        <h2 class="section-title"><%= t("ui.dashboard.session_summary") %></h2>
+      </div>
+      <div class="space-y-3">
+        <%= render partial: "dashboards/session_stats", collection: @sessions, as: :session %>
+      </div>
+    </div>
+
+    <div>
+      <div class="mb-3">
+        <h2 class="section-title"><%= t("ui.dashboard.latest_feedback") %></h2>
+      </div>
+      <div id="feedbacks_list" class="space-y-3">
+        <%= render partial: "feedbacks/feedback_card", collection: @recent_feedbacks, as: :feedback %>
+      </div>
+    </div>
+  </section>
+</div>

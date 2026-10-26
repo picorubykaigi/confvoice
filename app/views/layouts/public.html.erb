@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for(:title) || t("app.name") %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Confvoice">
+    <meta name="mobile-web-app-capable" content="yes">
+    <% if @conference.present? %>
+      <% og_title = content_for?(:og_title) ? content_for(:og_title) : @conference.name %>
+      <% og_description = content_for?(:og_description) ? content_for(:og_description) : conference_og_description(@conference) %>
+      <%= render "shared/social_meta",
+            title: og_title,
+            description: og_description,
+            url: request.original_url,
+            image_url: conference_og_image_url(@conference),
+            image_type: conference_og_image_type(@conference),
+            image_alt: conference_og_image_alt(@conference) %>
+    <% end %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%= favicon_link_tag "/favicon.ico" %>
+    <%= tag.link rel: "apple-touch-icon", href: "/logo.png" %>
+
+    <%= render "shared/theme_boot" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="flex min-h-dvh flex-col antialiased">
+    <%= render "shared/site_header", public_context: true, conference: @conference %>
+
+    <% public_container_class = content_for?(:public_container_class) ? content_for(:public_container_class) : "max-w-2xl" %>
+    <main class="app-main mx-auto flex w-full flex-1 flex-col px-4 py-6 sm:py-10 <%= public_container_class %>">
+      <% flash.each do |type, message| %>
+        <% tone = type.to_s == "alert" ? "flash-message--alert" : "flash-message--success" %>
+        <div class="flash-message <%= tone %>" role="status">
+          <%= message %>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<div class="space-y-8">
+  <div class="page-heading">
+    <div>
+      <h1 class="page-title"><%= t("pages.home.title") %></h1>
+      <p class="page-lead mt-2"><%= t("pages.home.lead") %></p>
+    </div>
+    <% if authenticated? %>
+      <%= link_to t("pages.home.dashboard"), conferences_path, class: "button-secondary" %>
+    <% end %>
+  </div>
+
+  <% if @conferences.any? %>
+    <ul class="conference-list">
+      <% @conferences.each do |conference| %>
+        <li>
+          <%= link_to public_conference_path(conference), class: "conference-list__link" do %>
+            <span class="conference-list__date"><%= conference_date_range(conference) %></span>
+            <div class="min-w-0">
+              <h2 class="section-title"><%= conference.name %></h2>
+              <% if conference.venue.present? %>
+                <p class="muted mt-1 text-sm"><%= conference.venue %></p>
+              <% end %>
+            </div>
+            <span class="conference-list__action"><%= t("pages.home.view_talks") %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="empty-state">
+      <p><%= t("pages.home.empty") %></p>
+      <%= link_to t("pages.home.dashboard"), authenticated? ? conferences_path : new_session_path, class: "button-secondary mt-4" %>
+    </div>
+  <% end %>
+</div>

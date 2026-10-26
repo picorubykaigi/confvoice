@@ -1,0 +1,59 @@
+<%= form_with model: conference, class: "space-y-5" do |form| %>
+  <%= render "shared/errors", resource: conference %>
+
+  <div>
+    <%= form.label :name, t("ui.conferences.form.name"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+    <%= form.text_field :name, required: true, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+  </div>
+
+  <div>
+    <%= form.label :description, t("ui.conferences.form.description"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+    <%= form.text_area :description, rows: 5, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+  </div>
+
+  <div>
+    <%= form.label :venue, t("ui.conferences.form.venue"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+    <%= form.text_field :venue, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+  </div>
+
+  <div class="grid gap-5 md:grid-cols-2">
+    <div>
+      <%= form.label :starts_on, t("ui.conferences.form.starts_on"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= form.date_field :starts_on, required: true, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+    </div>
+
+    <div>
+      <%= form.label :ends_on, t("ui.conferences.form.ends_on"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
+      <%= form.date_field :ends_on, required: true, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+    </div>
+  </div>
+
+  <label class="flex items-center gap-3 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+    <%= form.check_box :published, class: "size-4 rounded border-zinc-300 dark:border-zinc-700 text-emerald-600 dark:text-emerald-300 focus:ring-emerald-600" %>
+    <%= t("ui.conferences.form.publish") %>
+  </label>
+
+  <% if ogp_image_upload_enabled? %>
+    <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/60 p-4">
+      <%= form.label :ogp_image, t("ui.conferences.form.ogp_image"), class: "block text-sm font-semibold text-zinc-950 dark:text-zinc-50" %>
+      <p class="mt-1 text-sm leading-6 text-zinc-600 dark:text-zinc-400"><%= t("ui.conferences.form.ogp_help") %></p>
+
+      <% if conference.ogp_image.attached? %>
+        <div class="mt-4 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+          <%= image_tag conference.ogp_image, alt: conference_og_image_alt(conference), class: "aspect-[1200/630] w-full object-cover" %>
+        </div>
+        <label class="mt-3 flex items-center gap-3 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+          <%= form.check_box :remove_ogp_image, class: "size-4 rounded border-zinc-300 dark:border-zinc-700 text-emerald-600 dark:text-emerald-300 focus:ring-emerald-600" %>
+          <%= t("ui.conferences.form.remove_ogp") %>
+        </label>
+      <% end %>
+
+      <%= form.file_field :ogp_image, accept: "image/png,image/jpeg,image/webp", class: "mt-4 w-full rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm file:mr-4 file:rounded-md file:border-0 file:bg-zinc-100 dark:file:bg-zinc-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-zinc-950 dark:file:text-white focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+    </div>
+  <% end %>
+
+  <div class="flex flex-wrap gap-3">
+    <%= form.submit t("ui.common.save"), class: "rounded-md bg-zinc-100 px-4 py-3 text-sm font-semibold text-zinc-950 hover:bg-white" %>
+    <%= link_to t("ui.common.back"), conferences_path, class: "rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-3 text-sm font-semibold text-zinc-900 dark:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800" %>
+  </div>
+<% end %>

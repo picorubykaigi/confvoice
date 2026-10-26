@@ -1,0 +1,33 @@
+<% moderation = local_assigns.fetch(:moderation, false) %>
+
+<article id="<%= dom_id(feedback) %>" class="surface p-4 sm:p-5">
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+    <div class="flex min-w-0 items-center gap-3">
+      <div class="min-w-0">
+        <p class="text-sm font-semibold"><%= feedback.session.title %></p>
+        <div class="muted mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs">
+          <span><%= feedback.respondent_name.presence || t("ui.feedbacks.unnamed") %></span>
+          <time datetime="<%= feedback.created_at.iso8601 %>" class="tabular-nums"><%= short_datetime(feedback.created_at) %></time>
+        </div>
+      </div>
+    </div>
+    <% if feedback.rating.present? %>
+      <div class="shrink-0 text-lg" aria-label="<%= t("ui.feedbacks.rating_label", rating: feedback.rating) %>">
+        <%= rating_stars(feedback.rating) %>
+      </div>
+    <% end %>
+  </div>
+  <p class="mt-4 whitespace-pre-line text-sm leading-7 text-zinc-700 dark:text-zinc-300"><%= sanitize(feedback.body) %></p>
+
+  <% if moderation %>
+    <div class="mt-4 flex flex-col gap-3 border-t border-zinc-200 pt-4 dark:border-zinc-700/80 sm:flex-row sm:items-center sm:justify-between">
+      <% if feedback.speaker_visible? %>
+        <span class="badge-live w-fit"><%= t("ui.feedbacks.shared") %></span>
+        <%= button_to t("ui.feedbacks.unshare"), conference_session_feedback_speaker_visibility_path(feedback.session.conference, feedback.session, feedback), method: :delete, class: "button-secondary min-h-10 py-2" %>
+      <% else %>
+        <span class="badge-neutral w-fit"><%= t("ui.feedbacks.private") %></span>
+        <%= button_to t("ui.feedbacks.share"), conference_session_feedback_speaker_visibility_path(feedback.session.conference, feedback.session, feedback), method: :patch, class: "button-primary min-h-10 py-2" %>
+      <% end %>
+    </div>
+  <% end %>
+</article>
