@@ -4,7 +4,7 @@ module PublicSessionScoping
   private
 
   def set_session
-    @conference = Conference.published.find_by!(slug: params[:conference_slug])
-    @session = @conference.sessions.find_by!(slug: params[:slug])
+    @session = Session.joins(:conference).merge(Conference.published).find(params[:id])
+    @conference = @session.conference
   end
 end

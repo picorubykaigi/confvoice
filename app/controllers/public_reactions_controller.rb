@@ -8,12 +8,12 @@ class PublicReactionsController < ApplicationController
     reaction = @session.reactions.build(kind: reaction_params[:kind], respondent_token: respondent_token)
 
     if reaction.save
-      redirect_to public_feedback_path(@conference, @session), notice: t("app.flash.reaction_sent")
+      redirect_to public_feedback_path(@session.id), notice: t("app.flash.reaction_sent")
     else
-      redirect_to public_feedback_path(@conference, @session), alert: reaction.errors.full_messages.to_sentence
+      redirect_to public_feedback_path(@session.id), alert: reaction.errors.full_messages.to_sentence
     end
   rescue ActiveRecord::RecordNotUnique
-    redirect_to public_feedback_path(@conference, @session), alert: t("app.flash.reaction_already_sent")
+    redirect_to public_feedback_path(@session.id), alert: t("app.flash.reaction_already_sent")
   end
 
   private

@@ -24,12 +24,12 @@
     <% @sessions.each do |session| %>
       <article class="rounded-lg border border-zinc-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/70 p-6 text-center break-inside-avoid">
         <div class="mx-auto mb-4 flex w-fit justify-center rounded-md bg-white p-3">
-          <%= qrcode_svg(public_feedback_url(@conference, session)) %>
+          <%= qrcode_svg(public_feedback_url(session.id)) %>
         </div>
         <h2 class="text-lg font-semibold text-zinc-950 dark:text-zinc-50"><%= session.title %></h2>
         <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400"><%= session.speaker_name %></p>
         <p class="mt-2 text-xs text-zinc-600 dark:text-zinc-400"><%= short_datetime(session.starts_at) %> - <%= short_datetime(session.ends_at) %></p>
-        <p class="mt-3 break-all text-xs text-zinc-600 dark:text-zinc-400"><%= public_feedback_url(@conference, session) %></p>
+        <p class="mt-3 break-all text-xs text-zinc-600 dark:text-zinc-400"><%= public_feedback_url(session.id) %></p>
       </article>
     <% end %>
   </div>

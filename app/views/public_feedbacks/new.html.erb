@@ -23,7 +23,7 @@
       </div>
 
       <%= form_with model: @feedback,
-            url: public_feedback_path(@conference, @session),
+            url: public_feedback_path(@session.id),
             class: "space-y-6",
             data: {
               controller: "feedback-draft",

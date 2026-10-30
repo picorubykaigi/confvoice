@@ -8,7 +8,7 @@
       <p class="mt-5 whitespace-pre-line text-zinc-700 dark:text-zinc-300"><%= @session.description %></p>
     <% end %>
     <div class="mt-6 flex flex-wrap gap-3">
-      <%= link_to t("ui.conferences.send_feedback"), public_feedback_path(@conference, @session), class: "rounded-md bg-emerald-400 px-4 py-3 text-sm font-semibold text-zinc-950 hover:bg-emerald-300" %>
+      <%= link_to t("ui.conferences.send_feedback"), public_feedback_path(@session.id), class: "rounded-md bg-emerald-400 px-4 py-3 text-sm font-semibold text-zinc-950 hover:bg-emerald-300" %>
       <% if @session.slide_deck.attached? %>
         <%= link_to t("ui.sessions.slide_deck"), rails_blob_path(@session.slide_deck, disposition: "inline"), class: "rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-3 text-sm font-semibold text-zinc-900 dark:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800" %>
       <% end %>

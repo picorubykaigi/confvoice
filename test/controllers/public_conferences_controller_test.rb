@@ -10,7 +10,7 @@ class PublicConferencesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", conference.name
     assert_select "h4", "公開トーク"
-    assert_select "a[href=?]", public_feedback_path(conference, session), text: "感想を書く"
+    assert_select "a[href=?]", "/t/#{session.id}", text: "感想を書く"
   end
 
   test "セッション一覧は日付ごとに時刻だけを表示し会場未設定なら表示しないこと" do
@@ -32,7 +32,7 @@ class PublicConferencesControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "10:10 - 10:40"
     assert_no_match "07/18 10:10 - 07/18 10:40", response.body
     assert_no_match "会場未定", response.body
-    assert_select "a[href=?]", public_feedback_path(conference, session), text: "感想を書く"
+    assert_select "a[href=?]", "/t/#{session.id}", text: "感想を書く"
   end
 
   test "感想受付終了トークは受付終了として表示すること" do
@@ -43,7 +43,7 @@ class PublicConferencesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "span", "受付終了"
-    assert_select "a[href=?]", public_feedback_path(conference, session), count: 0
+    assert_select "a[href=?]", "/t/#{session.id}", count: 0
   end
 
   test "公開ページはデフォルトOGP画像をmetaに反映すること" do

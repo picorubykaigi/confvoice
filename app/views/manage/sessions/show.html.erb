@@ -59,7 +59,7 @@
       <% end %>
     </div>
     <div class="mt-6 flex flex-wrap gap-2">
-      <%= link_to t("ui.sessions.submission_page"), public_feedback_path(@conference, @session), class: "rounded-md bg-emerald-400 px-3 py-2 text-sm font-semibold text-zinc-950 hover:bg-emerald-300" %>
+      <%= link_to t("ui.sessions.submission_page"), public_feedback_path(@session.id), class: "rounded-md bg-emerald-400 px-3 py-2 text-sm font-semibold text-zinc-950 hover:bg-emerald-300" %>
       <%= link_to t("ui.sessions.feedback_list"), conference_session_feedbacks_path(@conference, @session), class: "rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm font-semibold hover:bg-zinc-100 dark:hover:bg-zinc-800" %>
     </div>
   </div>

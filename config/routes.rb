@@ -32,8 +32,8 @@ Rails.application.routes.draw do
   root "pages#home"
 
   get ":slug", to: "public_conferences#show", as: :public_conference
-  get ":conference_slug/talks/:slug", to: "public_feedbacks#new", as: :public_feedback
-  post ":conference_slug/talks/:slug", to: "public_feedbacks#create"
-  post ":conference_slug/talks/:slug/reactions", to: "public_reactions#create", as: :public_reactions
-  get ":conference_slug/talks/:slug/thanks", to: "public_feedbacks#thanks", as: :public_feedback_thanks
+  get "t/:id", to: "public_feedbacks#new", as: :public_feedback, constraints: { id: /\d+/ }
+  post "t/:id", to: "public_feedbacks#create", constraints: { id: /\d+/ }
+  post "t/:id/reactions", to: "public_reactions#create", as: :public_reactions, constraints: { id: /\d+/ }
+  get "t/:id/thanks", to: "public_feedbacks#thanks", as: :public_feedback_thanks, constraints: { id: /\d+/ }
 end

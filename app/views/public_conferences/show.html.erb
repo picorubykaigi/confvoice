@@ -35,7 +35,7 @@
                     <% end %>
                   </div>
                   <% if session.feedback_open? %>
-                    <%= link_to t("public_conferences.send_feedback"), public_feedback_path(@conference, session), class: "button-secondary shrink-0" %>
+                    <%= link_to t("public_conferences.send_feedback"), public_feedback_path(session.id), class: "button-secondary shrink-0" %>
                   <% else %>
                     <span class="muted py-3 text-sm"><%= t("public_conferences.closed") %></span>
                   <% end %>

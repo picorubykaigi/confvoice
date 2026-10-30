@@ -5,7 +5,7 @@ class QrcodesControllerTest < ActionDispatch::IntegrationTest
     user = create(:user, :organizer)
     conference = create(:conference)
     create(:conference_membership, user: user, conference: conference, role: :organizer)
-    create(:session, conference: conference)
+    session = create(:session, conference: conference)
 
     sign_in_as(user)
     get conference_qrcodes_path(conference)
@@ -13,5 +13,6 @@ class QrcodesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes response.body, public_conference_url(conference)
     assert_includes response.body, "参加者向けトーク一覧"
+    assert_includes response.body, "http://www.example.com/t/#{session.id}"
   end
 end

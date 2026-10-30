@@ -14,7 +14,7 @@ Rack::Attack.throttle("login/email", limit: 5, period: 1.minute) do |req|
 end
 
 Rack::Attack.throttle("feedback/token", limit: 5, period: 1.minute) do |req|
-  feedback_path = req.path.match?(%r{\A/[^/]+/talks/[^/]+(?:/reactions)?\z})
+  feedback_path = req.path.match?(%r{\A/t/\d+(?:/reactions)?\z})
 
   req.cookies["respondent_token"] if feedback_path && req.post?
 end

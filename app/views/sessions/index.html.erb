@@ -17,7 +17,7 @@
                 <h3 class="mt-2 text-lg font-semibold"><%= link_to session.title, conference_session_path(@conference, session), class: "hover:text-emerald-600 dark:hover:text-emerald-300" %></h3>
                 <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400"><%= session.speaker_name %></p>
                 <div class="mt-4">
-                  <%= link_to t("ui.conferences.send_feedback"), public_feedback_path(@conference, session), class: "rounded-md bg-emerald-400 px-3 py-2 text-sm font-semibold text-zinc-950 hover:bg-emerald-300" %>
+                  <%= link_to t("ui.conferences.send_feedback"), public_feedback_path(session.id), class: "rounded-md bg-emerald-400 px-3 py-2 text-sm font-semibold text-zinc-950 hover:bg-emerald-300" %>
                 </div>
               </article>
             <% end %>

@@ -16,7 +16,7 @@ class PublicFeedbacksController < ApplicationController
     @feedback.respondent_token = respondent_token
 
     if @feedback.save
-      redirect_to public_feedback_thanks_path(@conference, @session)
+      redirect_to public_feedback_thanks_path(@session.id)
     else
       render :new, status: :unprocessable_entity
     end
