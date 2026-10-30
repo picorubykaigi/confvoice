@@ -30,9 +30,6 @@
                     <p class="muted text-sm tabular-nums"><%= session_time_and_room(session) %></p>
                     <h4 class="mt-2 text-base font-semibold"><%= session.title %></h4>
                     <p class="muted mt-1 text-sm"><%= session.speaker_name %></p>
-                    <% if session.description.present? %>
-                      <p class="muted mt-3 max-w-2xl text-sm"><%= session.description %></p>
-                    <% end %>
                   </div>
                   <% if session.feedback_open? %>
                     <%= link_to t("public_conferences.send_feedback"), public_feedback_path(session.id), class: "button-secondary shrink-0" %>
