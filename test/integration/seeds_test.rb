@@ -14,6 +14,13 @@ class SeedsTest < ActiveSupport::TestCase
     end
   end
 
+  test "production database preparation skips demo seeds while development keeps them" do
+    databases = ActiveRecord::DatabaseConfigurations.new(Rails.application.config.database_configuration)
+
+    assert_not databases.configs_for(env_name: "production").any?(&:seeds?)
+    assert databases.configs_for(env_name: "development", name: "primary").seeds?
+  end
+
   test "production seeds require explicit opt in" do
     ENV["CONFVOICE_SEED_PASSWORD"] = "private-seed-password-for-test"
 

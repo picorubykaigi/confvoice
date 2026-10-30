@@ -87,6 +87,7 @@ test:
 production:
   primary: &primary_production
     <<: *default
+    seeds: false
     database: confvoice_production
     username: confvoice
     password: <%= ENV["CONFVOICE_DATABASE_PASSWORD"] %>
