@@ -9,7 +9,7 @@
   <dl class="mt-6 grid gap-4 sm:grid-cols-2">
     <div>
       <dt class="text-sm text-zinc-600 dark:text-zinc-400"><%= t("ui.admin_users.role") %></dt>
-      <dd class="font-medium"><%= @user.role %></dd>
+      <dd class="font-medium"><%= t("roles.#{@user.role}") %></dd>
     </div>
     <div>
       <dt class="text-sm text-zinc-600 dark:text-zinc-400"><%= t("ui.admin_users.conferences") %></dt>

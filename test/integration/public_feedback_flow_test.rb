@@ -8,11 +8,14 @@ class PublicFeedbackFlowTest < ActionDispatch::IntegrationTest
 
     get public_feedback_path(session.conference, session)
     assert_response :success
-    assert_select "a[href=?]", public_conference_path(session.conference), text: "Back to talks"
+    assert_select "a[href=?]", public_conference_path(session.conference), text: "トーク一覧へ"
     assert_select "form[data-controller=?][data-feedback-draft-key-value=?]", "feedback-draft", "feedback-draft:#{session.conference.slug}:#{session.slug}"
     assert_select "input[name=?][data-feedback-draft-target=?]", "feedback[respondent_name]", "field"
     assert_select "textarea[name=?][data-feedback-draft-target=?]", "feedback[body]", "field"
     assert_select "input[name=?]", "feedback[rating]", count: 0
+    assert_select "html[lang=ja]"
+    assert_select "label[for=feedback_respondent_name]", "お名前"
+    assert_select "input[type=submit][value=?]", "感想を送る"
 
     assert_difference "Feedback.count", 1 do
       post public_feedback_path(session.conference, session), params: {
@@ -22,6 +25,22 @@ class PublicFeedbackFlowTest < ActionDispatch::IntegrationTest
     assert_redirected_to public_feedback_thanks_path(session.conference, session)
     assert_equal "参加者 太郎", Feedback.last.respondent_name
     assert_nil Feedback.last.rating
+    follow_redirect!
+    assert_select "h1", "感想を送信しました"
+  end
+
+  test "入力不足のエラーを日本語で表示すること" do
+    session = create(:session, feedback_open: true)
+
+    assert_no_difference "Feedback.count" do
+      post public_feedback_path(session.conference, session), params: {
+        feedback: { respondent_name: "", body: "" }
+      }
+    end
+
+    assert_response :unprocessable_entity
+    assert_includes response.body, "お名前を入力してください"
+    assert_includes response.body, "感想を入力してください"
   end
 
   test "日本語slugの投稿URLはエスケープされること" do
@@ -37,6 +56,6 @@ class PublicFeedbackFlowTest < ActionDispatch::IntegrationTest
     get public_feedback_path(session.conference, session)
 
     assert_response :forbidden
-    assert_select "a[href=?]", public_conference_path(session.conference), text: "Back to talks"
+    assert_select "a[href=?]", public_conference_path(session.conference), text: "トーク一覧へ"
   end
 end

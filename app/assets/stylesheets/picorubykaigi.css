@@ -1,0 +1,88 @@
+@font-face {
+  font-family: "DotGothic16";
+  src: url("dot-gothic-16.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Jersey 10";
+  src: url("jersey-10.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Conti Neue 2P";
+  src: url("conti-neue-2p.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.skip-link { position: absolute; top: -6rem; left: 1rem; z-index: 10; padding: 0.75rem 1rem; background: var(--surface); color: var(--ink); }
+.skip-link:focus { top: 1rem; }
+
+.site-header { position: relative; border: 0; padding-block: 16px; background: none; }
+.site-header::before, .site-header::after { content: ""; position: absolute; right: 0; left: 0; height: 4px; pointer-events: none; }
+.site-header::before { top: 12px; background: #e8404b; }
+.site-header::after { bottom: 16px; background: #5f7cb8; }
+.site-header__inner { min-height: 64px; gap: 1rem; }
+.site-brand { font-family: "Jersey 10", sans-serif; font-size: 2rem; font-weight: 400; }
+.site-nav { gap: 0.5rem; }
+.site-nav__link, .site-nav__button { font-family: "Jersey 10", "DotGothic16", sans-serif; font-size: 1rem; font-weight: 400; letter-spacing: 0.06em; color: var(--ink); }
+.site-nav__link:hover, .site-nav__button:hover { background: var(--surface); text-decoration: underline; text-underline-offset: 4px; }
+.site-conference-link { max-width: 16rem; font-size: 0.75rem; }
+
+.home-intro { max-width: 54rem; margin: 0 auto 2rem; }
+.home-intro h1 { font-family: "Jersey 10", sans-serif; font-size: clamp(3rem, 6vw, 4rem); line-height: 1.1; }
+.home-intro .page-lead { max-width: none; }
+
+.talk-picker { max-width: 54rem; margin: 0 auto; padding: 1.5rem 2rem; background: var(--surface); border: 2px solid var(--line-strong); }
+.talk-picker .section-title { font-family: "Jersey 10", "DotGothic16", sans-serif; font-size: 1.375rem; font-weight: 400; }
+.talk-picker .conference-list { margin-top: 1.25rem; }
+.talk-picker .conference-list__link { grid-template-columns: 11rem minmax(0, 1fr) auto; gap: 1.25rem; padding: 1.25rem 0; }
+.talk-picker .conference-list__link .section-title { font-family: "DotGothic16", monospace; font-size: 1rem; }
+.conference-list__action { color: var(--brand); }
+
+.conference-heading { padding: 2rem; border: 2px solid var(--line-strong); background: var(--surface); }
+.conference-heading .page-title { font-family: "Conti Neue 2P", "DotGothic16", monospace; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 400; line-height: 1.6; }
+.schedule-list { padding-inline: 1.25rem; background: var(--surface); border: 2px solid var(--line-strong); }
+.schedule-day > h3 { padding: 0.5rem; background: var(--surface); }
+.schedule-row:last-child { border-bottom: 0; }
+.schedule-row .button-secondary { color: var(--brand); border-color: var(--brand); }
+
+.button-primary, .button-secondary { border-radius: 0; border-width: 2px; font-family: "Jersey 10", "DotGothic16", sans-serif; font-weight: 400; font-size: 1rem; }
+.button-primary { box-shadow: 3px 3px 0 var(--ink); }
+.button-secondary { border-color: var(--line-strong); }
+.surface { border-radius: 0; }
+.form-input { border-radius: 0; font-family: inherit; }
+.form-label, .section-title, .page-title { font-weight: 400; }
+
+.feedback-panel { padding: clamp(1.25rem, 4vw, 2rem); border: 2px solid var(--line-strong); border-top: 4px solid #e8404b; }
+.feedback-panel .button-primary { width: 100%; min-height: 3rem; }
+.feedback-session-header .page-title { font-size: clamp(1.5rem, 4vw, 1.875rem); }
+.feedback-form-heading { margin-bottom: 1.5rem; }
+.feedback-form-heading .section-title { font-family: "Jersey 10", "DotGothic16", sans-serif; font-size: 1.375rem; }
+.feedback-form-heading .form-note { margin-top: 0.5rem; }
+.feedback-result { padding: 2.5rem 1.5rem; text-align: center; }
+.feedback-result .page-lead { margin-inline: auto; }
+.feedback-result__ruby { width: 4rem; height: auto; margin: 0 auto 1.5rem; }
+
+.site-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem; margin-top: auto; padding: 1.25rem max(1rem, calc((100% - 70rem) / 2)); background: var(--ink); color: var(--canvas); font-family: "Jersey 10", "DotGothic16", sans-serif; font-size: 0.875rem; letter-spacing: 0.04em; }
+.site-footer a { text-underline-offset: 4px; }
+.site-footer a:hover { text-decoration: underline; }
+
+@media (max-width: 767px) {
+  .site-nav__event-link, .site-nav__admin-link { display: none; }
+  .talk-picker { padding: 1.25rem; }
+  .talk-picker .conference-list__link { grid-template-columns: minmax(0, 1fr) auto; }
+  .schedule-row .button-secondary { width: 100%; }
+}
+@media (max-width: 639px) {
+  .site-nav__talks-link { display: none; }
+  .site-header__inner { flex-wrap: nowrap; padding-block: 0; }
+}
+@media print {
+  .site-footer, .skip-link { display: none; }
+}

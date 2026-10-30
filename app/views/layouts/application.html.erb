@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= I18n.locale %>">
   <head>
     <title><%= content_for(:title) || t("app.name") %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Confvoice">
+    <meta name="application-name" content="<%= t("app.name") %>">
     <meta name="mobile-web-app-capable" content="yes">
     <%= render "shared/social_meta",
           title: content_for?(:og_title) ? content_for(:og_title) : t("app.name"),
@@ -21,21 +21,21 @@
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-    <%= favicon_link_tag "/favicon.ico" %>
-    <%= tag.link rel: "apple-touch-icon", href: "/logo.png" %>
+    <%= favicon_link_tag "/icon.png", type: "image/png" %>
+    <%= tag.link rel: "apple-touch-icon", href: "/icon.png" %>
 
-    <%= render "shared/theme_boot" %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "picorubykaigi", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
     <%= javascript_include_tag "chartkick" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="min-h-dvh antialiased">
+  <body class="flex min-h-dvh flex-col antialiased">
+    <%= link_to t("app.skip_to_content"), "#main-content", class: "skip-link" %>
     <%= render "shared/site_header" %>
 
-    <main class="app-main mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
+    <main id="main-content" tabindex="-1" class="app-main mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:py-10">
       <% flash.each do |type, message| %>
         <% tone = type.to_s == "alert" ? "flash-message--alert" : "flash-message--success" %>
         <div class="flash-message <%= tone %>" role="status">
@@ -45,5 +45,6 @@
 
       <%= yield %>
     </main>
+    <%= render "shared/site_footer" %>
   </body>
 </html>

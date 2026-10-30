@@ -13,8 +13,8 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_equal "text/csv", response.media_type
-    assert_includes response.body, "Session"
-    assert_includes response.body, "Name"
+    assert_includes response.body, "セッション"
+    assert_includes response.body, "名前"
     assert_includes response.body, "参加者 太郎"
     assert_includes response.body, "良かった"
   end

@@ -2,7 +2,7 @@
 <% content_for :og_title, "#{@session.title} - #{@conference.name}" %>
 <% content_for :og_description, @session.description.to_s.squish.presence || conference_og_description(@conference) %>
 
-<section class="py-6">
+<section class="surface feedback-result">
   <p class="muted text-sm"><%= @conference.name %></p>
   <h1 class="page-title mt-2"><%= t("public_feedbacks.closed_title") %></h1>
   <p class="page-lead mt-3"><%= t("public_feedbacks.closed_body") %></p>

@@ -1,8 +1,12 @@
-<div class="space-y-8">
+<section class="home-intro" aria-labelledby="home-title">
+  <h1 id="home-title"><%= t("app.name") %></h1>
+  <p class="page-lead mt-3"><%= t("pages.home.lead") %></p>
+</section>
+
+<section class="talk-picker" aria-labelledby="talk-picker-title">
   <div class="page-heading">
     <div>
-      <h1 class="page-title"><%= t("pages.home.title") %></h1>
-      <p class="page-lead mt-2"><%= t("pages.home.lead") %></p>
+      <h2 id="talk-picker-title" class="section-title"><%= t("pages.home.conferences") %></h2>
     </div>
     <% if authenticated? %>
       <%= link_to t("pages.home.dashboard"), conferences_path, class: "button-secondary" %>
@@ -16,7 +20,7 @@
           <%= link_to public_conference_path(conference), class: "conference-list__link" do %>
             <span class="conference-list__date"><%= conference_date_range(conference) %></span>
             <div class="min-w-0">
-              <h2 class="section-title"><%= conference.name %></h2>
+              <h3 class="section-title"><%= conference.name %></h3>
               <% if conference.venue.present? %>
                 <p class="muted mt-1 text-sm"><%= conference.venue %></p>
               <% end %>
@@ -27,9 +31,11 @@
       <% end %>
     </ul>
   <% else %>
-    <div class="empty-state">
+    <div class="empty-state mt-5">
       <p><%= t("pages.home.empty") %></p>
-      <%= link_to t("pages.home.dashboard"), authenticated? ? conferences_path : new_session_path, class: "button-secondary mt-4" %>
+      <% if authenticated? %>
+        <%= link_to t("pages.home.dashboard"), conferences_path, class: "button-secondary mt-4" %>
+      <% end %>
     </div>
   <% end %>
-</div>
+</section>

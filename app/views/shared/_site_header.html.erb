@@ -1,14 +1,10 @@
 <% public_context = local_assigns.fetch(:public_context, false) %>
 <% conference = local_assigns[:conference] %>
-<% brand_path = public_context && conference ? public_conference_path(conference) : root_path %>
 
 <header class="site-header">
   <div class="site-header__inner">
     <div class="flex min-w-0 items-center gap-3">
-      <%= link_to brand_path, class: "site-brand shrink-0" do %>
-        <%= image_tag "/logo.png", alt: "", width: 32, height: 32, class: "site-brand__logo" %>
-        <span><%= t("app.name") %></span>
-      <% end %>
+      <%= link_to t("app.name"), root_path, class: "site-brand shrink-0" %>
 
       <% if public_context && conference %>
         <span class="hidden h-5 w-px bg-zinc-200 dark:bg-zinc-700 sm:block"></span>
@@ -17,18 +13,17 @@
     </div>
 
     <nav class="site-nav" aria-label="<%= t("app.nav.primary") %>">
+      <%= link_to t("app.event_website"), "https://picorubykaigi.org/", class: "site-nav__link site-nav__event-link" %>
       <% if public_context %>
         <% if conference %>
-          <%= link_to t("public_conferences.sessions_title"), public_conference_path(conference), class: "site-nav__link hidden sm:inline-flex" %>
+          <%= link_to t("public_conferences.sessions_title"), public_conference_path(conference), class: "site-nav__link site-nav__talks-link" %>
         <% end %>
       <% else %>
         <%= link_to t("app.nav.conferences"), conferences_path, class: "site-nav__link" if authenticated? %>
         <% if current_user&.admin? %>
-          <%= link_to t("app.nav.users"), admin_users_path, class: "site-nav__link hidden md:inline-flex" %>
+          <%= link_to t("app.nav.users"), admin_users_path, class: "site-nav__link site-nav__admin-link" %>
         <% end %>
       <% end %>
-
-      <%= render "shared/theme_toggle" %>
 
       <% unless public_context %>
         <% if authenticated? %>
@@ -36,9 +31,6 @@
           <%= button_to t("app.nav.logout"), session_path, method: :delete, class: "site-nav__button" %>
         <% else %>
           <%= link_to t("app.nav.login"), new_session_path, class: "site-nav__link" %>
-          <% if self_registration_enabled? %>
-            <%= link_to t("app.nav.register"), new_registration_path, class: "site-nav__button site-nav__button--accent" %>
-          <% end %>
         <% end %>
       <% end %>
     </nav>

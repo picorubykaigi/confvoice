@@ -2,6 +2,10 @@
 
 ConfVoice is a Rails application for collecting conference session feedback from QR codes. Organizers can review submissions in real time and share only moderated feedback with speakers.
 
+This fork is styled for [PicoRubyKaigi 2026 Assemble](https://picorubykaigi.org/). The attendee pages use the event's breadboard-inspired colors, dot lettering, and Ruby artwork. Conference and session data are still managed through the organizer dashboard; the demo seeds are not the official program.
+
+The event images in `public/picorubykaigi-*.png` are by the PicoRubyKaigi 2026 Assemble Team, from the [official goodies](https://picorubykaigi.org/goodies/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The Conti Neue 2P font comes from the event website. The interface uses the same DotGothic16 body type and Jersey 10 navigation type as the event site. Fonts are served locally from `app/assets/fonts`; the Google Fonts licenses are included alongside them.
+
 ## Requirements
 
 - Ruby 4.0.x
@@ -67,7 +71,7 @@ Common optional settings:
 - Speaker invite links with a read-only live portal
 - CSV export with UTF-8 BOM for Excel
 - PDF slide attachment per session
-- English interface
+- Japanese interface
 - Rack::Attack rate limits
 - Solid Queue, Solid Cache, and Solid Cable
 - Kamal deployment template

@@ -22,7 +22,7 @@
           <tr>
             <td class="px-4 py-3 font-medium text-zinc-950 dark:text-zinc-50"><%= link_to user.name, admin_user_path(user), class: "hover:text-emerald-600 dark:hover:text-emerald-300" %></td>
             <td class="px-4 py-3 text-zinc-600 dark:text-zinc-400"><%= user.email_address %></td>
-            <td class="px-4 py-3 text-zinc-600 dark:text-zinc-400"><%= user.role %></td>
+            <td class="px-4 py-3 text-zinc-600 dark:text-zinc-400"><%= t("roles.#{user.role}") %></td>
             <td class="px-4 py-3 text-right"><%= link_to t("ui.common.edit"), edit_admin_user_path(user), class: "font-semibold text-emerald-600 dark:text-emerald-300 hover:text-emerald-700 dark:hover:text-emerald-200" %></td>
           </tr>
         <% end %>

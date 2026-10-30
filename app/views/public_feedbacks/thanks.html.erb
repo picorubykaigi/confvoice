@@ -2,7 +2,8 @@
 <% content_for :og_title, @conference.name %>
 <% content_for :og_description, conference_og_description(@conference) %>
 
-<section class="py-6">
+<section class="surface feedback-result">
+  <%= image_tag "/picorubykaigi-ruby.png", alt: "", width: 990, height: 809, class: "feedback-result__ruby" %>
   <p class="muted text-sm"><%= @conference.name %></p>
   <h1 class="page-title mt-2"><%= t("public_feedbacks.thanks_title") %></h1>
   <p class="page-lead mt-3"><%= t("public_feedbacks.thanks_body") %></p>

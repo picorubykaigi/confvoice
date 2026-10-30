@@ -56,7 +56,7 @@ class SessionTest < ActiveSupport::TestCase
     )
 
     assert_not session.valid?
-    assert_includes session.errors[:starts_at], "must be within the conference dates"
+    assert_includes session.errors[:starts_at], "はカンファレンスの日程から選んでください"
   end
 
   test "終了日はカンファレンス日程内であること" do
@@ -69,7 +69,7 @@ class SessionTest < ActiveSupport::TestCase
     )
 
     assert_not session.valid?
-    assert_includes session.errors[:ends_at], "must be within the conference dates"
+    assert_includes session.errors[:ends_at], "はカンファレンスの日程から選んでください"
   end
 
   test "終了日は開始日と同じ日付であること" do
@@ -82,7 +82,7 @@ class SessionTest < ActiveSupport::TestCase
     )
 
     assert_not session.valid?
-    assert_includes session.errors[:ends_at], "must be on the same date as the start time"
+    assert_includes session.errors[:ends_at], "は開始日と同じ日付にしてください"
   end
 
   test "PDFスライドを添付できること" do

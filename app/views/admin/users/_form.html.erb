@@ -13,7 +13,7 @@
 
   <div>
     <%= form.label :role, t("ui.admin_users.role"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
-    <%= form.select :role, User.roles.keys.map { |role| [role, role] }, {}, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+    <%= form.select :role, User.roles.keys.map { |role| [t("roles.#{role}"), role] }, {}, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
   </div>
 
   <div class="grid gap-5 md:grid-cols-2">

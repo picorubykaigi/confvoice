@@ -46,7 +46,7 @@ class ConferenceTest < ActiveSupport::TestCase
     )
 
     assert_not conference.valid?
-    assert_includes conference.errors[:ogp_image], "must be a PNG, JPEG, or WebP image"
+    assert_includes conference.errors[:ogp_image], "はPNG、JPEG、WebPのいずれかを添付してください"
   end
 
   test "5MBを超えるOGP画像添付は無効" do
@@ -58,6 +58,6 @@ class ConferenceTest < ActiveSupport::TestCase
     )
 
     assert_not conference.valid?
-    assert_includes conference.errors[:ogp_image], "must be 5MB or smaller"
+    assert_includes conference.errors[:ogp_image], "は5MB以下にしてください"
   end
 end

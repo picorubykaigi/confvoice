@@ -8,7 +8,7 @@
     <%= t("public_feedbacks.back_to_sessions") %>
   <% end %>
 
-  <section>
+  <section class="surface feedback-panel">
     <div class="feedback-session-header">
       <p class="muted text-sm"><%= @conference.name %></p>
       <h1 class="page-title mt-2"><%= @session.title %></h1>
@@ -17,8 +17,9 @@
     </div>
 
     <div class="pt-6">
-      <div class="mb-6">
+      <div class="feedback-form-heading">
         <h2 class="section-title"><%= t("public_feedbacks.form_title") %></h2>
+        <p class="form-note"><%= t("public_feedbacks.form_lead") %></p>
       </div>
 
       <%= form_with model: @feedback,

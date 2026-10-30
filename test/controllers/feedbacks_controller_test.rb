@@ -12,9 +12,9 @@ class FeedbacksControllerTest < ActionDispatch::IntegrationTest
     get conference_session_feedbacks_path(conference, session)
 
     assert_response :success
-    assert_select "span", "Organizers only"
+    assert_select "span", "主催者のみ"
     assert_select "form[action=?]", conference_session_feedback_speaker_visibility_path(conference, session, feedback)
-    assert_select "button", "Share with speaker"
+    assert_select "button", "登壇者に共有"
   end
 
   test "speakerメンバーは未共有を含む感想一覧を閲覧できないこと" do

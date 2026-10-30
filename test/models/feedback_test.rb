@@ -36,7 +36,7 @@ class FeedbackTest < ActiveSupport::TestCase
     feedback = build(:feedback, rating: 6)
 
     assert_not feedback.valid?
-    assert_includes feedback.errors[:rating], "must be between 1 and 5"
+    assert_includes feedback.errors[:rating], "は1〜5の範囲で入力してください"
   end
 
   test "評価なしでも保存できること" do
@@ -49,8 +49,8 @@ class FeedbackTest < ActiveSupport::TestCase
     feedback = build(:feedback, respondent_name: "", body: "")
 
     assert_not feedback.valid?
-    assert_includes feedback.errors[:respondent_name], "can't be blank"
-    assert_includes feedback.errors[:body], "can't be blank"
+    assert_includes feedback.errors[:respondent_name], "を入力してください"
+    assert_includes feedback.errors[:body], "を入力してください"
   end
 
   test "同一セッションに同一トークンで重複投稿できないこと" do

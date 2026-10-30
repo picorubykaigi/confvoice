@@ -31,7 +31,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "10:10 - 10:40"
     assert_no_match "07/18 10:10 - 07/18 10:40", response.body
     assert_no_match "会場未定", response.body
-    assert_select "a[href=?]", public_feedback_path(conference, session), text: "Send feedback"
+    assert_select "a[href=?]", public_feedback_path(conference, session), text: "感想を送る"
   end
 
   test "主催者はセッション詳細を閲覧できること" do

@@ -10,7 +10,7 @@ class PublicConferencesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", conference.name
     assert_select "h4", "公開トーク"
-    assert_select "a[href=?]", public_feedback_path(conference, session), text: "Write feedback"
+    assert_select "a[href=?]", public_feedback_path(conference, session), text: "感想を書く"
   end
 
   test "セッション一覧は日付ごとに時刻だけを表示し会場未設定なら表示しないこと" do
@@ -32,7 +32,7 @@ class PublicConferencesControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "10:10 - 10:40"
     assert_no_match "07/18 10:10 - 07/18 10:40", response.body
     assert_no_match "会場未定", response.body
-    assert_select "a[href=?]", public_feedback_path(conference, session), text: "Write feedback"
+    assert_select "a[href=?]", public_feedback_path(conference, session), text: "感想を書く"
   end
 
   test "感想受付終了トークは受付終了として表示すること" do
@@ -42,7 +42,7 @@ class PublicConferencesControllerTest < ActionDispatch::IntegrationTest
     get public_conference_path(conference)
 
     assert_response :success
-    assert_select "span", "Closed"
+    assert_select "span", "受付終了"
     assert_select "a[href=?]", public_feedback_path(conference, session), count: 0
   end
 
@@ -60,10 +60,10 @@ class PublicConferencesControllerTest < ActionDispatch::IntegrationTest
     assert_select "meta[property='og:image:type'][content='image/png']"
     assert_select "meta[property='og:image:width'][content='1280']"
     assert_select "meta[property='og:image:height'][content='670']"
-    assert_select "meta[property='og:image:alt'][content=?]", "RubyKaigi 2026 social preview image"
+    assert_select "meta[property='og:image:alt'][content=?]", "RubyKaigi 2026 のOGP画像"
     assert_select "meta[name='twitter:card'][content='summary_large_image']"
     assert_select "meta[name='twitter:image'][content=?]", default_og_image_url
-    assert_select "meta[name='twitter:image:alt'][content=?]", "RubyKaigi 2026 social preview image"
+    assert_select "meta[name='twitter:image:alt'][content=?]", "RubyKaigi 2026 のOGP画像"
   end
 
   test "OGP画像が登録されている場合もmetaはデフォルト画像を使いビジュアルには反映されること" do
@@ -81,11 +81,11 @@ class PublicConferencesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "meta[property='og:title'][content=?]", "RubyKaigi 2026"
     assert_select "meta[property='og:image'][content=?]", default_og_image_url
-    assert_select "meta[property='og:image:alt'][content=?]", "RubyKaigi 2026 social preview image"
+    assert_select "meta[property='og:image:alt'][content=?]", "RubyKaigi 2026 のOGP画像"
     assert_select "meta[property='og:image:type'][content='image/png']"
     assert_select "meta[name='twitter:card'][content='summary_large_image']"
     assert_select "meta[name='twitter:image'][content=?]", default_og_image_url
-    assert_select "meta[name='twitter:image:alt'][content=?]", "RubyKaigi 2026 social preview image"
-    assert_select "img[alt=?]", "RubyKaigi 2026 social preview image"
+    assert_select "meta[name='twitter:image:alt'][content=?]", "RubyKaigi 2026 のOGP画像"
+    assert_select "img[alt=?]", "RubyKaigi 2026 のOGP画像"
   end
 end

@@ -25,7 +25,7 @@ module Confvoice
     # config.eager_load_paths << Rails.root.join("extras")
     config.time_zone = "Tokyo"
     config.i18n.available_locales = [ :ja, :en ]
-    config.i18n.default_locale = :en
+    config.i18n.default_locale = :ja
     config.middleware.use Rack::Attack
   end
 end

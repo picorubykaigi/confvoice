@@ -12,6 +12,6 @@ class QrcodesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_includes response.body, public_conference_url(conference)
-    assert_includes response.body, "Audience talk list"
+    assert_includes response.body, "参加者向けトーク一覧"
   end
 end

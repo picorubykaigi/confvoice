@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= I18n.locale %>">
   <head>
     <title><%= content_for(:title) || t("app.name") %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Confvoice">
+    <meta name="application-name" content="<%= t("app.name") %>">
     <meta name="mobile-web-app-capable" content="yes">
     <% if @conference.present? %>
       <% og_title = content_for?(:og_title) ? content_for(:og_title) : @conference.name %>
@@ -22,20 +22,20 @@
 
     <%= yield :head %>
 
-    <%= favicon_link_tag "/favicon.ico" %>
-    <%= tag.link rel: "apple-touch-icon", href: "/logo.png" %>
+    <%= favicon_link_tag "/picorubykaigi-icon.png", type: "image/png" %>
+    <%= tag.link rel: "apple-touch-icon", href: "/picorubykaigi-icon.png" %>
 
-    <%= render "shared/theme_boot" %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "picorubykaigi", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body class="flex min-h-dvh flex-col antialiased">
+    <%= link_to t("app.skip_to_content"), "#main-content", class: "skip-link" %>
     <%= render "shared/site_header", public_context: true, conference: @conference %>
 
     <% public_container_class = content_for?(:public_container_class) ? content_for(:public_container_class) : "max-w-2xl" %>
-    <main class="app-main mx-auto flex w-full flex-1 flex-col px-4 py-6 sm:py-10 <%= public_container_class %>">
+    <main id="main-content" tabindex="-1" class="app-main mx-auto flex w-full flex-1 flex-col px-4 py-6 sm:py-10 <%= public_container_class %>">
       <% flash.each do |type, message| %>
         <% tone = type.to_s == "alert" ? "flash-message--alert" : "flash-message--success" %>
         <div class="flash-message <%= tone %>" role="status">
@@ -45,5 +45,6 @@
 
       <%= yield %>
     </main>
+    <%= render "shared/site_footer" %>
   </body>
 </html>

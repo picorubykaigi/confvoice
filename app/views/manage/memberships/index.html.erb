@@ -20,7 +20,7 @@
     <%= form_with scope: :conference_membership, url: conference_manage_memberships_path(@conference), class: "mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-5" do |form| %>
       <div class="lg:col-span-1">
         <%= form.label :role, t("ui.memberships.role"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
-        <%= form.select :role, ConferenceMembership.roles.keys.map { |role| [role, role] }, {}, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2" %>
+        <%= form.select :role, ConferenceMembership.roles.keys.map { |role| [t("roles.#{role}"), role] }, {}, class: "mt-2 w-full rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2" %>
       </div>
       <div>
         <%= form.label :email_address, t("ui.memberships.email"), class: "block text-sm font-medium text-zinc-700 dark:text-zinc-300" %>
@@ -57,7 +57,7 @@
             <td class="px-4 py-3 text-zinc-600 dark:text-zinc-400"><%= membership.user.email_address %></td>
             <td class="px-4 py-3">
               <%= form_with model: membership, url: conference_manage_membership_path(@conference, membership), method: :patch, class: "flex gap-2" do |form| %>
-                <%= form.select :role, ConferenceMembership.roles.keys.map { |role| [role, role] }, {}, class: "rounded-md border border-zinc-300 dark:border-zinc-700 px-2 py-1" %>
+                <%= form.select :role, ConferenceMembership.roles.keys.map { |role| [t("roles.#{role}"), role] }, {}, class: "rounded-md border border-zinc-300 dark:border-zinc-700 px-2 py-1" %>
                 <%= form.submit t("ui.common.update"), class: "rounded-md border border-zinc-300 dark:border-zinc-700 px-2 py-1 font-semibold hover:bg-zinc-100 dark:hover:bg-zinc-800" %>
               <% end %>
             </td>
